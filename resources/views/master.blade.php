@@ -80,10 +80,14 @@
                         <div class="menu_section">
                             <ul class="nav side-menu">
                                 <li>
-                                    <a href="{{ url('/penilaian') }}"><i class="fa fa-calculator"></i>Penilaian</a>
+                                    <a href="{{ route('penilaian.index') }}"><i
+                                            class="fa fa-calculator"></i>Penilaian</a>
                                 </li>
                                 <li>
                                     <a href="{{ route('karyawan.index') }}"><i class="fa fa-users"></i>Karyawan</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('kriteria.index') }}"><i class="fa fa-bar-chart"></i>Kriteria</a>
                                 </li>
                             </ul>
                         </div>

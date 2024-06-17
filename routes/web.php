@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\DokumenController;
 use App\Http\Controllers\KaryawanController;
+use App\Http\Controllers\KriteriaController;
 use App\Http\Controllers\PegawaiController;
+use App\Http\Controllers\PenilaianController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +29,8 @@ Route::get('/penilaian', function () {
 
 
 Route::resource('karyawan', KaryawanController::class);
+Route::resource('kriteria', KriteriaController::class);
+Route::resource('penilaian', PenilaianController::class);
 
 // Route::middleware('auth')->group(function () {
 

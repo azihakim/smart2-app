@@ -12,7 +12,8 @@ class KriteriaController extends Controller
      */
     public function index()
     {
-        //
+        $data = Kriteria::all();
+        return view('kriteria.index', compact('data'));
     }
 
     /**
@@ -20,7 +21,7 @@ class KriteriaController extends Controller
      */
     public function create()
     {
-        //
+        return view('kriteria.create');
     }
 
     /**
@@ -28,7 +29,12 @@ class KriteriaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = new Kriteria();
+        $data->nama = $request->nama;
+        $data->bobot = $request->bobot;
+        $data->keterangan = $request->keterangan;
+        $data->save();
+        return redirect()->route('kriteria.index')->with('success', 'Kriteria berhasil ditambahkan');
     }
 
     /**
@@ -42,24 +48,32 @@ class KriteriaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Kriteria $kriteria)
+    public function edit($id)
     {
-        //
+        $data = Kriteria::find($id);
+        return view('kriteria.edit', compact('data'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Kriteria $kriteria)
+    public function update(Request $request, $id)
     {
-        //
+        $data = Kriteria::find($id);
+        $data->nama = $request->nama;
+        $data->bobot = $request->bobot;
+        $data->keterangan = $request->keterangan;
+        $data->save();
+        return redirect()->route('kriteria.index')->with('success', 'Kriteria berhasil diubah');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Kriteria $kriteria)
+    public function destroy($id)
     {
-        //
+        $data = Kriteria::find($id);
+        $data->delete();
+        return redirect()->route('kriteria.index')->with('error', 'Kriteria berhasil dihapus');
     }
 }
