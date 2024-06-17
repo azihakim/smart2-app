@@ -42,6 +42,11 @@
         rel="stylesheet">
     <link href="{{ asset('vendors/resource/datatables.net-scroller-bs/css/scroller.bootstrap.min.css') }}"
         rel="stylesheet">
+
+    <!-- Livewire -->
+    @livewireStyles
+
+    @yield('styles')
 </head>
 
 <body class="nav-md">
@@ -74,7 +79,11 @@
                     <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
                         <div class="menu_section">
                             <ul class="nav side-menu">
-                                <li><a href="{{ url('/penilaian') }}"><i class="fa fa-calculator"></i>Penilaian</a>
+                                <li>
+                                    <a href="{{ url('/penilaian') }}"><i class="fa fa-calculator"></i>Penilaian</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('karyawan.index') }}"><i class="fa fa-users"></i>Karyawan</a>
                                 </li>
                             </ul>
                         </div>
@@ -201,7 +210,11 @@
 
             <!-- page content -->
             <div class="right_col" role="main">
-                @yield('content')
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 ">
+                        @yield('content')
+                    </div>
+                </div>
             </div>
             <!-- /page content -->
 
@@ -215,6 +228,8 @@
             <!-- /footer content -->
         </div>
     </div>
+
+    @yield('scripts')
 
     <!-- jQuery -->
     <script src="{{ asset('vendors/resource/jquery/dist/jquery.min.js') }}"></script>

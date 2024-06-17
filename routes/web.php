@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DokumenController;
+use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -23,6 +24,9 @@ Route::get('/', function () {
 Route::get('/penilaian', function () {
     return view('penilaian.penilaian');
 });
+
+
+Route::resource('karyawan', KaryawanController::class);
 
 // Route::middleware('auth')->group(function () {
 
