@@ -5,18 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Kriteria extends Model
+class SubKriteria extends Model
 {
     use HasFactory;
 
     protected $fillable = [
+        'kriteria_id',
         'nama',
+        'rentang',
+        'skor',
         'bobot',
-        'keterangan'
     ];
 
-    public function subKriterias()
+    public function kriteria()
     {
-        return $this->hasMany(SubKriteria::class);
+        return $this->belongsTo(Kriteria::class);
     }
 }
