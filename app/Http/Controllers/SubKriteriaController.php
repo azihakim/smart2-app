@@ -71,7 +71,7 @@ class SubKriteriaController extends Controller
         }
 
         $subKriteria->penilaian = json_encode($penilaian); // Simpan sebagai JSON
-        dd($subKriteria->penilaian);
+        dd($subKriteria);
         // Simpan perubahan
         $subKriteria->save();
 
