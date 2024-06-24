@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kriteria;
 use App\Models\SubKriteria;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,9 @@ class SubKriteriaController extends Controller
      */
     public function index()
     {
-        //
+        $data = SubKriteria::all();
+        // dd($data);
+        return view('subkriteria.index', compact('data'));
     }
 
     /**
@@ -42,17 +45,37 @@ class SubKriteriaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(SubKriteria $subKriteria)
+    public function edit($id)
     {
-        //
+        $subKriteria = SubKriteria::findOrFail($id);
+        $kriterias = Kriteria::all(); // Ambil semua data kriteria
+
+        return view('subkriteria.edit', compact('subKriteria', 'kriterias'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, SubKriteria $subKriteria)
+    public function update(Request $request, $id)
     {
-        //
+        $subKriteria = SubKriteria::find($id);
+
+        $subKriteria->nama = $request->nama;
+        $subKriteria->bobot = $request->bobot;
+        $subKriteria->kriteria_id = $request->kriteria_id;
+
+        // Menggabungkan rentang dan skor menjadi format penilaian yang sesuai
+        $penilaian = [];
+        for ($i = 0; $i < count($request->rentang); $i++) {
+            $penilaian[] = [
+                'rentang' => $request->rentang[$i],
+                'skor' => $request->skor[$i],
+            ];
+        }
+
+        $subKriteria->penilaian = json_encode($penilaian); // Simpan sebagai JSON
+        dd($subKriteria->penilaian);
+        // Simpan perubahan
+        $subKriteria->save();
+
+        return redirect('/subkriteria')->with('success', 'Data sub kriteria berhasil diperbarui.');
     }
 
     /**

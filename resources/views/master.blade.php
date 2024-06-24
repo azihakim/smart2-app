@@ -89,6 +89,10 @@
                                 <li>
                                     <a href="{{ route('kriteria.index') }}"><i class="fa fa-bar-chart"></i>Kriteria</a>
                                 </li>
+                                <li>
+                                    <a href="{{ route('subkriteria.index') }}"><i class="fa fa-bar-chart"></i>Sub
+                                        Kriteria</a>
+                                </li>
                             </ul>
                         </div>
 

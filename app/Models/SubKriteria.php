@@ -8,17 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class SubKriteria extends Model
 {
     use HasFactory;
-
+    protected $table = 'sub_kriterias';
     protected $fillable = [
         'kriteria_id',
         'nama',
-        'rentang',
-        'skor',
         'bobot',
+        'penilaian'
     ];
 
     public function kriteria()
     {
-        return $this->belongsTo(Kriteria::class);
+        return $this->belongsTo(Kriteria::class, 'kriteria_id');
     }
 }
