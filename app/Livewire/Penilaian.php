@@ -18,50 +18,52 @@ class Penilaian extends Component
     public $subkriteria = [];
     public $nilai = [];
 
-    // public function mount()
-    // {
-    //     $this->karyawans = Karyawan::all();
-
-    //     foreach ($this->karyawans as $karyawan) {
-    //         $this->id_karyawan[$karyawan->id] = $karyawan->id;
-    //         $this->nama_karyawan[$karyawan->id] = $karyawan->nama;
-    //         $this->jabatan_karyawan[$karyawan->id] = $karyawan->jabatan;
-    //     }
-
-    //     $this->kriteria = Kriteria::all();
-    //     $this->subkriteria = SubKriteria::all();
-    // }
-
     public function mount()
     {
         $this->karyawans = Karyawan::all();
 
-        // Initialize arrays to store data
-        $this->id_karyawan = [];
-        $this->nama_karyawan = [];
-        $this->jabatan_karyawan = [];
-        $this->nilai = []; // Adjust to fit your structure
-
-        // Initialize karyawan data
         foreach ($this->karyawans as $karyawan) {
             $this->id_karyawan[$karyawan->id] = $karyawan->id;
             $this->nama_karyawan[$karyawan->id] = $karyawan->nama;
             $this->jabatan_karyawan[$karyawan->id] = $karyawan->jabatan;
-
-            // Initialize nilai for each karyawan and subkriteria
-            $this->nilai[$karyawan->id] = [];
-
-            // Fetch subkriteria for each kriteria
-            $kriteria = Kriteria::with('subkriteria')->get();
-
-            foreach ($kriteria as $item) {
-                foreach ($item->subkriteria as $subitem) {
-                    // Initialize nilai for each subkriteria
-                    $this->nilai[$karyawan->id][$subitem->id][$subitem->nama] = 0;
-                }
-            }
         }
+
+        $this->kriteria = Kriteria::all();
+        $this->subkriteria = SubKriteria::all();
     }
+
+    // public function mount()
+    // {
+    //     $this->karyawans = Karyawan::all();
+
+    //     // Initialize arrays to store data
+    //     $this->id_karyawan = [];
+    //     $this->nama_karyawan = [];
+    //     $this->jabatan_karyawan = [];
+    //     $this->nilai = []; // Adjust to fit your structure
+
+    //     // Initialize karyawan data
+    //     foreach ($this->karyawans as $karyawan) {
+    //         $this->id_karyawan[$karyawan->id] = $karyawan->id;
+    //         $this->nama_karyawan[$karyawan->id] = $karyawan->nama;
+    //         $this->jabatan_karyawan[$karyawan->id] = $karyawan->jabatan;
+
+    //         // Initialize nilai for each karyawan and subkriteria
+    //         $this->nilai[$karyawan->id] = [];
+
+    //         // Fetch subkriteria for each kriteria
+    //         $kriteria = Kriteria::with('subkriteria')->get();
+
+    //         foreach ($kriteria as $item) {
+    //             // Ensure the relationship method 'subkriteria' is correctly defined in Kriteria model
+    //             foreach ($item->subkriteria as $subitem) {
+    //                 // Initialize nilai for each subkriteria
+    //                 $this->nilai[$karyawan->id][$subitem->id][$subitem->nama] = 0;
+    //             }
+    //         }
+    //     }
+    // }
+
 
     public function render()
     {

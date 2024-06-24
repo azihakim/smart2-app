@@ -47,7 +47,7 @@
                         <div class="col-md-2 col-sm-2 form-group">
                             <label for="fullname">{{ $item->nama }} :</label>
                             <input wire:model="nilai.{{ $karyawan->id }}.{{ $item->id }}.{{ $item->nama }}"
-                                type="text" id="fullname" class="form-control" required="">
+                                type="number" id="fullname" class="form-control" required="">
                         </div>
                     @endforeach
                 </div>

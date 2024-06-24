@@ -34,7 +34,12 @@
                             <td>{{ $item->karyawan->nama }}</td> {{-- Nama Karyawan --}}
                             <td>{{ $item->tgl_penilaian }}</td> {{-- Tanggal Penilaian --}}
                             <td>
-                                <pre>{{ $item->data['total_nilai'] }}</pre>
+                                {{-- Decode the JSON string to access 'total_nilai' --}}
+                                @php
+                                    $data = json_decode($item->data, true); // Decode JSON string to associative array
+                                    $totalNilai = isset($data['total_nilai']) ? $data['total_nilai'] : null; // Access 'total_nilai' if it exists
+                                @endphp
+                                <pre>{{ $totalNilai }}</pre>
                             </td>
                         </tr>
                     @endforeach
