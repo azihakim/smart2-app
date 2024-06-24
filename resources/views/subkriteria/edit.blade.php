@@ -33,7 +33,7 @@
                         Bobot Sub Kriteria
                         <div class="form-group">
                             <div class="input-group date" id="myDatepicker">
-                                <input placeholder="Bobot Sub Kriteria" value="{{ $subKriteria->bobot }}" name="nama"
+                                <input placeholder="Bobot Sub Kriteria" value="{{ $subKriteria->bobot }}" name="bobot"
                                     type="text" class="form-control">
                             </div>
                         </div>

@@ -20,7 +20,7 @@
                 <h2>Kriteria</h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li>
-                        <a href="{{ route('kriteria.create') }}"
+                        <a href="{{ route('subkriteria.create') }}"
                             style="text-decoration: none; transition: color 0.3s; color: rgb(76, 75, 75);">
                             <i class="fa fa-plus"></i> Tambah
                         </a>
@@ -37,7 +37,7 @@
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Kriteria ID</th>
+                                        <th>Kriteria</th>
                                         <th>Nama</th>
                                         <th>Bobot</th>
                                         <th>Penilaian</th>

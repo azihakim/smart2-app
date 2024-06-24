@@ -15,29 +15,79 @@
         </div>
         <div class="x_content">
             <br>
-            <form action="{{ route('kriteria.store') }}" method="POST" enctype="multipart/form-data"
+            <form action="{{ route('subkriteria.store') }}" method="POST" enctype="multipart/form-data"
                 class="form-label-left input_mask">
                 @csrf
                 <div class="form-group row">
-                    <div class="col-md-4 col-sm-4  form-group has-feedback">
-                        <input name="nama" type="text" class="form-control has-feedback-left" id="inputSuccess2"
-                            placeholder="Nama">
-                        <span class="fa fa-bar-chart form-control-feedback left" aria-hidden="true"></span>
+                    <div class="col-sm-4">
+                        Nama Sub Kriteria
+                        <div class="form-group">
+                            <div class="input-group date" id="myDatepicker">
+                                <input placeholder="Nama Sub Kriteria" name="nama" type="text" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        Bobot Sub Kriteria
+                        <div class="form-group">
+                            <div class="input-group date" id="myDatepicker">
+                                <input placeholder="Bobot Sub Kriteria" name="bobot" type="text" class="form-control">
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="col-md-4 col-sm-4  form-group has-feedback">
-                        <input name="bobot" type="text" class="form-control" id="inputSuccess3" placeholder="Bobot">
-                        <span class="fa fa-calculator form-control-feedback
-                            right"
-                            aria-hidden="true"></span>
-                    </div>
 
-                    <div class="col-md-4 col-sm-4  form-group has-feedback">
-                        <input name="keterangan" type="text" class="form-control" id="inputSuccess3"
-                            placeholder="Keterangan">
-                        <span class="fa fa-info form-control-feedback
-                            right"
-                            aria-hidden="true"></span>
+                    <div class="col-sm-4">
+                        Kriteria:
+                        <div class="form-group">
+                            <select class="form-control" id="kriteria_id" name="kriteria_id" required>
+                                @foreach ($kriterias as $kriteria)
+                                    <option value="{{ $kriteria->id }}">
+                                        {{ $kriteria->nama }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <h4>Penilaian</h4>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <input placeholder="Rentang" name="rentang[]" type="text" class="form-control">
+
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <input placeholder="Bobot Sub Kriteria" name="skor[]" type="text" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <input placeholder="Rentang" name="rentang[]" type="text" class="form-control">
+
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <input placeholder="Bobot Sub Kriteria" name="skor[]" type="text" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <input placeholder="Rentang" name="rentang[]" type="text" class="form-control">
+
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <input placeholder="Bobot Sub Kriteria" name="skor[]" type="text" class="form-control">
+                        </div>
                     </div>
                 </div>
                 <div class="ln_solid"></div>
