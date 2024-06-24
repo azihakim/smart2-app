@@ -131,7 +131,7 @@ class DatabaseSeeder extends Seeder
             [
                 'kriteria_id' => 1,
                 'nama' => 'Izin',
-                'bobot' => 30,
+                'bobot' => 20,
                 'penilaian' => json_encode([
                     ["rentang" => "Tidak Pernah", "skor" => 3],
                     ["rentang" => "1-5x izin dengan keterangan", "skor" => 2],

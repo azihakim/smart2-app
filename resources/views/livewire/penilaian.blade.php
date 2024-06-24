@@ -36,7 +36,14 @@
                 </div>
 
                 <div class="form-group row">
-                    @foreach ($kriteria as $item)
+                    {{-- @foreach ($kriteria as $item)
+                        <div class="col-md-2 col-sm-2 form-group">
+                            <label for="fullname">{{ $item->nama }} :</label>
+                            <input wire:model="nilai.{{ $karyawan->id }}.{{ $item->id }}.{{ $item->nama }}"
+                                type="text" id="fullname" class="form-control" required="">
+                        </div>
+                    @endforeach --}}
+                    @foreach ($subkriteria as $item)
                         <div class="col-md-2 col-sm-2 form-group">
                             <label for="fullname">{{ $item->nama }} :</label>
                             <input wire:model="nilai.{{ $karyawan->id }}.{{ $item->id }}.{{ $item->nama }}"
@@ -50,6 +57,7 @@
 
             <div class="form-group row">
                 <div class="col-sm-12">
+                    <button wire:click="addNilai" type="submit" class="btn btn-success">addNilai</button>
                     <button wire:click="getMaxMinValues" type="submit" class="btn btn-success">getMaxMinValues</button>
                     <button wire:click="normalizeData" type="submit" class="btn btn-success">normalizeData</button>
                     <button wire:click="getUtilityValues" type="submit"

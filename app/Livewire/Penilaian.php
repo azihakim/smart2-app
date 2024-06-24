@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Karyawan;
 use App\Models\Kriteria;
 use App\Models\Penilaiandb;
+use App\Models\SubKriteria;
 use Livewire\Component;
 
 class Penilaian extends Component
@@ -14,19 +15,52 @@ class Penilaian extends Component
     public $nama_karyawan = [];
     public $jabatan_karyawan = [];
     public $kriteria = [];
+    public $subkriteria = [];
     public $nilai = [];
+
+    // public function mount()
+    // {
+    //     $this->karyawans = Karyawan::all();
+
+    //     foreach ($this->karyawans as $karyawan) {
+    //         $this->id_karyawan[$karyawan->id] = $karyawan->id;
+    //         $this->nama_karyawan[$karyawan->id] = $karyawan->nama;
+    //         $this->jabatan_karyawan[$karyawan->id] = $karyawan->jabatan;
+    //     }
+
+    //     $this->kriteria = Kriteria::all();
+    //     $this->subkriteria = SubKriteria::all();
+    // }
 
     public function mount()
     {
         $this->karyawans = Karyawan::all();
 
+        // Initialize arrays to store data
+        $this->id_karyawan = [];
+        $this->nama_karyawan = [];
+        $this->jabatan_karyawan = [];
+        $this->nilai = []; // Adjust to fit your structure
+
+        // Initialize karyawan data
         foreach ($this->karyawans as $karyawan) {
             $this->id_karyawan[$karyawan->id] = $karyawan->id;
             $this->nama_karyawan[$karyawan->id] = $karyawan->nama;
             $this->jabatan_karyawan[$karyawan->id] = $karyawan->jabatan;
-        }
 
-        $this->kriteria = Kriteria::all();
+            // Initialize nilai for each karyawan and subkriteria
+            $this->nilai[$karyawan->id] = [];
+
+            // Fetch subkriteria for each kriteria
+            $kriteria = Kriteria::with('subkriteria')->get();
+
+            foreach ($kriteria as $item) {
+                foreach ($item->subkriteria as $subitem) {
+                    // Initialize nilai for each subkriteria
+                    $this->nilai[$karyawan->id][$subitem->id][$subitem->nama] = 0;
+                }
+            }
+        }
     }
 
     public function render()
@@ -34,56 +68,113 @@ class Penilaian extends Component
         return view('livewire.penilaian');
     }
 
-    public function normalizeData()
+    public function addNilai()
     {
-        $normalizedData = [];
+        $mappingKriteria = [];
+        $subs = SubKriteria::select('nama', 'kriteria_id', 'bobot')->get();
+        foreach ($subs as $sub) {
+            // $sub->nama adalah nama sub sub kriteria
+            // $sub->kriteria->nama adalah nama kriteria yang sesuai
+            $mappingKriteria[$sub->nama] = [
+                'kriteria' => $sub->kriteria->nama,
+                'bobotSub' => $sub->bobot, // Bobot dari sub kriteria
+                'bobotKriteria' => $sub->kriteria->bobot, // Bobot dari kriteria yang terkait
+            ];
+        }
 
-        foreach ($this->nilai as $setKey => $set) {
-            foreach ($set as $kriteriaKey => $kriteria) {
-                foreach ($kriteria as $namaKriteria => $nilai) {
-                    // Normalisasi nilai dengan mengalikan dengan 0.01
-                    $normalizedData[$setKey][$kriteriaKey][$namaKriteria] = $nilai * 0.01;
+        // Iterasi untuk setiap karyawan
+        foreach ($this->nilai as $karyawan => $subkriteria) {
+            // Inisialisasi total nilai kriteria untuk karyawan ini
+            $totalNilaiKriteria = [];
+
+            // Inisialisasi total nilai kriteria berdasarkan mapping
+            foreach ($mappingKriteria as $subSubKriteria => $info) {
+                $kriteriaNama = $info['kriteria'];
+                $totalNilaiKriteria[$kriteriaNama] = 0;
+            }
+
+            // Iterasi untuk setiap sub sub kriteria dari karyawan ini
+            foreach ($subkriteria as $no_subkriteria => $nilai) {
+                // Jika nilai sub sub kriteria tidak kosong, tambahkan nilainya ke total kriteria yang sesuai
+                if (!empty($nilai)) {
+                    // Ambil nilai dari array pertama yang ada (seharusnya hanya ada satu nilai per array)
+                    $nilai = reset($nilai);
+                    $subSubKriteria = key($this->nilai[$karyawan][$no_subkriteria]);
+                    $info = $mappingKriteria[$subSubKriteria];
+                    $kriteria = $info['kriteria'];
+                    $bobotSub = $info['bobotSub'];
+                    $bobotKriteria = $info['bobotKriteria'];
+
+                    // Hitung nilai akhir dengan mengalikan nilai dengan bobot sub kriteria dan faktor 0.01,
+                    // kemudian dikalikan dengan bobot kriteria dan faktor 0.01
+                    $jumlah = (int) ($nilai * $bobotSub) * 0.01;
+                    $nilaiAkhir = ($jumlah / 3) * ($bobotKriteria * 0.01);
+                    // $nilaiAkhir = (int) ($nilai * $bobotSub * 0.01) * ($bobotKriteria * 0.01);
+
+                    // Tambahkan nilai akhir ke total kriteria yang sesuai
+                    $totalNilaiKriteria[$kriteria] += $nilaiAkhir;
                 }
             }
+
+            // Simpan hasil perhitungan untuk karyawan ini ke dalam array total nilai karyawan
+            $totalNilaiKaryawan[$karyawan] = $totalNilaiKriteria;
         }
-        return $normalizedData;
-        // dd($normalizedData);
+
+        // Simpan hasil perhitungan ke dalam properti khusus
+        // dd($totalNilaiKaryawan);
+        return $totalNilaiKaryawan;
     }
+
+    public function normalizeData()
+    {
+        $totalNilaiKaryawan = $this->addNilai();
+
+        $normalizedData = [];
+
+        foreach ($totalNilaiKaryawan as $karyawanId => $subkriteria) {
+            foreach ($subkriteria as $namaKriteria => $nilai) {
+                // Normalisasi nilai dengan mengalikan dengan 0.01
+                $normalizedData[$karyawanId][$namaKriteria] = $nilai * 0.01;
+            }
+        }
+
+        // dd($normalizedData);
+        return $normalizedData;
+    }
+
     public function getMaxMinValues()
     {
         $normalizedData = $this->normalizeData();
 
         $maxValues = [];
-        foreach ($normalizedData as $set) {
-            foreach ($set as $kriteria) {
-                foreach ($kriteria as $namaKriteria => $nilai) {
-                    if (!isset($maxValues[$namaKriteria])) {
-                        $maxValues[$namaKriteria] = $nilai;
-                    } else {
-                        if ($nilai > $maxValues[$namaKriteria]) {
-                            $maxValues[$namaKriteria] = $nilai;
-                        }
-                    }
-                }
-            }
-        }
         $minValues = [];
+
+        // Inisialisasi maxValues dan minValues dengan nilai awal yang sesuai
         foreach ($normalizedData as $set) {
-            foreach ($set as $kriteria) {
-                foreach ($kriteria as $namaKriteria => $nilai) {
-                    if (!isset($minValues[$namaKriteria])) {
-                        $minValues[$namaKriteria] = $nilai;
-                    } else {
-                        if ($nilai < $minValues[$namaKriteria]) {
-                            $minValues[$namaKriteria] = $nilai;
-                        }
-                    }
+            foreach ($set as $namaKriteria => $nilai) {
+                $maxValues[$namaKriteria] = $nilai;
+                $minValues[$namaKriteria] = $nilai;
+            }
+            // Kita hanya perlu inisialisasi sekali karena nilai sudah pasti ada setelah di normalize
+            break;
+        }
+
+        // Iterasi untuk mencari nilai maksimum dan minimum
+        foreach ($normalizedData as $set) {
+            foreach ($set as $namaKriteria => $nilai) {
+                if ($nilai > $maxValues[$namaKriteria]) {
+                    $maxValues[$namaKriteria] = $nilai;
+                }
+                if ($nilai < $minValues[$namaKriteria]) {
+                    $minValues[$namaKriteria] = $nilai;
                 }
             }
         }
+
         // dd($maxValues, $minValues);
         return [$maxValues, $minValues];
     }
+
 
     private function isBenefitKriteria($namaKriteria)
     {
@@ -99,26 +190,23 @@ class Penilaian extends Component
         $normalizedData = $this->normalizeData();
         $utilityValues = [];
 
-        foreach ($normalizedData as $setKey => $set) {
-            foreach ($set as $kriteriaKey => $kriteria) {
-                foreach ($kriteria as $namaKriteria => $nilai) {
-                    // Perhitungan utility value
-                    if ($this->isBenefitKriteria($namaKriteria)) {
-                        // Jika kriteria adalah "Benefit", hitung utility sesuai rumus
-                        $nilaiMin = $minValues[$namaKriteria];
-                        $nilaiMax = $maxValues[$namaKriteria];
+        foreach ($normalizedData as $karyawanId => $kriteriaSet) {
+            foreach ($kriteriaSet as $namaKriteria => $nilai) {
+                // Perhitungan utility value
+                if ($this->isBenefitKriteria($namaKriteria)) {
+                    // Jika kriteria adalah "Benefit", hitung utility sesuai rumus
+                    $nilaiMin = $minValues[$namaKriteria];
+                    $nilaiMax = $maxValues[$namaKriteria];
 
-                        // Handle division by zero case if nilaiMax == nilaiMin
-                        if ($nilaiMax == $nilaiMin) {
-                            $utilityValues[$setKey][$namaKriteria] = 0; // or handle as needed
-                        } else {
-                            $utilityValues[$setKey][$namaKriteria] = ($nilai - $nilaiMin) / ($nilaiMax - $nilaiMin);
-                        }
+                    // Handle division by zero case if nilaiMax == nilaiMin
+                    if ($nilaiMax == $nilaiMin) {
+                        $utilityValues[$karyawanId][$namaKriteria] = 0; // or handle as needed
                     } else {
-                        // Jika kriteria bukan "Benefit", normalisasi nilai agar bisa menerima nilai minus
-                        // Misalnya, jika ingin memberikan nilai minus dengan cara lain, sesuaikan di sini
-                        $utilityValues[$setKey][$namaKriteria] = $nilai * 0.01; // Contoh normalisasi untuk nilai minus
+                        $utilityValues[$karyawanId][$namaKriteria] = ($nilai - $nilaiMin) / ($nilaiMax - $nilaiMin);
                     }
+                } else {
+                    // Jika kriteria bukan "Benefit", normalisasi nilai dengan mengalikan dengan 0.01
+                    $utilityValues[$karyawanId][$namaKriteria] = $nilai * 0.01;
                 }
             }
         }
@@ -126,6 +214,7 @@ class Penilaian extends Component
         // dd($utilityValues);
         return $utilityValues;
     }
+
 
     // public function hasilAkhir()
     // {
