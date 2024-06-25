@@ -55,8 +55,14 @@
             <div class="col-md-3 left_col">
                 <div class="left_col scroll-view">
                     <div class="navbar nav_title" style="border: 0;">
-                        <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Gentelella
-                                Alela!</span></a>
+
+                        <a href="#" class="site_title">
+                            <img src="{{ asset('vendors/build/images/logo.png') }}" class="profile_pic"
+                                style="width: 50px">
+                            <span>&nbsp;PT.CAL</span>
+                        </a>
+                        {{-- <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Gentelella
+                                Alela!</span></a> --}}
                     </div>
 
                     <div class="clearfix"></div>
@@ -79,6 +85,10 @@
                     <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
                         <div class="menu_section">
                             <ul class="nav side-menu">
+                                <li>
+                                    <a href="{{ route('dashboard.index') }}"><i
+                                            class="fa fa-dashboard"></i>Dashboard</a>
+                                </li>
                                 <li>
                                     <a href="{{ route('penilaian.index') }}"><i
                                             class="fa fa-calculator"></i>Penilaian</a>
@@ -131,7 +141,8 @@
                                         <span>Settings</span>
                                     </a>
                                     <a class="dropdown-item" href="javascript:;">Help</a>
-                                    <a class="dropdown-item" href="login.html"><i class="fa fa-sign-out pull-right"></i>
+                                    <a class="dropdown-item" href="login.html"><i
+                                            class="fa fa-sign-out pull-right"></i>
                                         Log Out</a>
                                 </div>
                             </li>

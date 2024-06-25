@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DokumenController;
 use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\KriteriaController;
@@ -29,6 +30,7 @@ Route::get('/penilaian', function () {
 });
 
 
+Route::resource('dashboard', DashboardController::class);
 Route::resource('karyawan', KaryawanController::class);
 Route::resource('kriteria', KriteriaController::class);
 Route::resource('subkriteria', SubKriteriaController::class);
