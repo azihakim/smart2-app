@@ -21,23 +21,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('master');
-});
-
-Route::get('/penilaian', function () {
-    return view('penilaian.penilaian');
-});
-
-
-Route::resource('dashboard', DashboardController::class);
-Route::resource('karyawan', KaryawanController::class);
-Route::resource('kriteria', KriteriaController::class);
-Route::resource('subkriteria', SubKriteriaController::class);
-Route::resource('penilaian', PenilaianController::class);
-
-// Route::middleware('auth')->group(function () {
-
+// Route::get('/', function () {
+//     return view('master');
 // });
+Route::middleware('auth')->group(function () {
+    Route::get('/penilaian', function () {
+        return view('penilaian.penilaian');
+    });
 
-// require __DIR__.'/auth.php';
+    Route::get('/', [DashboardController::class, 'index']);
+
+    Route::resource('dashboard', DashboardController::class);
+    Route::resource('karyawan', KaryawanController::class);
+    Route::resource('kriteria', KriteriaController::class);
+    Route::resource('subkriteria', SubKriteriaController::class);
+    Route::resource('penilaian', PenilaianController::class);
+});
+
+require __DIR__ . '/auth.php';

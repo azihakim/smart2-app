@@ -19,11 +19,31 @@
             <div class="x_title">
                 <h2>Kriteria</h2>
                 <ul class="nav navbar-right panel_toolbox">
+                    @php
+                        use App\Models\Kriteria;
+
+                        $kriterias = Kriteria::all(); // Mengambil semua data kriteria
+
+                        $totalBobot = 0; // Inisialisasi total bobot
+
+                        foreach ($kriterias as $kriteria) {
+                            $totalBobot += $kriteria->bobot; // Menambahkan bobot dari setiap kriteria ke totalBobot
+                        }
+                    @endphp
+
                     <li>
-                        <a href="{{ route('kriteria.create') }}"
-                            style="text-decoration: none; transition: color 0.3s; color: rgb(76, 75, 75);">
-                            <i class="fa fa-plus"></i> Tambah
-                        </a>
+                        @if ($totalBobot == 100)
+                            {{-- Jika total bobot tidak sama dengan 100 --}}
+                            <a href="{{ route('kriteria.index') }}"
+                                style="text-decoration: none; transition: color 0.3s; color: red;">
+                                <i class="fa fa-exclamation-triangle"></i> Total bobot kriteria sudah 100%
+                            </a>
+                        @else
+                            <a href="{{ route('kriteria.create') }}"
+                                style="text-decoration: none; transition: color 0.3s; color: rgb(76, 75, 75);">
+                                <i class="fa fa-plus"></i> Tambah
+                            </a>
+                        @endif
                     </li>
                 </ul>
                 <div class="clearfix"></div>

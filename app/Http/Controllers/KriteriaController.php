@@ -29,13 +29,36 @@ class KriteriaController extends Controller
      */
     public function store(Request $request)
     {
-        $data = new Kriteria();
-        $data->nama = $request->nama;
-        $data->bobot = $request->bobot;
-        $data->keterangan = $request->keterangan;
-        $data->save();
-        return redirect()->route('kriteria.index')->with('success', 'Kriteria berhasil ditambahkan');
+        // Validasi data yang diterima dari form
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'bobot' => 'required|numeric|min:0|max:100', // Bobot harus numerik dan maksimum 100
+            'keterangan' => 'nullable|string|max:255',
+        ]);
+
+        // Hitung total bobot yang sudah ada di database
+        $totalBobot = Kriteria::sum('bobot');
+
+        // Hitung total bobot setelah menambahkan bobot baru
+        $newBobot = $request->bobot;
+        $totalBobotSaatIni = $totalBobot + $newBobot;
+
+        // Validasi jika total bobot melebihi 100
+        if ($totalBobotSaatIni > 100) {
+            return redirect()->back()->with('error', 'Bobot melebihi 100%. Sisa bobot yang tersedia: ' . (100 - $totalBobot) . '%.');
+        }
+
+        // Simpan data kriteria
+        Kriteria::create([
+            'nama' => $request->nama,
+            'bobot' => $request->bobot,
+            'keterangan' => $request->keterangan,
+        ]);
+
+        // Redirect atau tampilkan pesan sukses jika berhasil disimpan
+        return redirect()->route('kriteria.index')->with('success', 'Kriteria berhasil ditambahkan.');
     }
+
 
     /**
      * Display the specified resource.

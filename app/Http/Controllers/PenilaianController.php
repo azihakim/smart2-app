@@ -49,6 +49,13 @@ class PenilaianController extends Controller
      */
     public function show($tgl_penilaian)
     {
+        // if (auth()->user()->role == 'Karyawan') {
+        //     $penilaian = PenilaianDb::where('tgl_penilaian', $tgl_penilaian)
+        //         ->orderByDesc('data->total_nilai')
+        //         ->take(3)
+        //         ->get();
+        // } else {
+        // }
         $penilaian = PenilaianDb::where('tgl_penilaian', $tgl_penilaian)
             ->orderByDesc('data->total_nilai')
             ->get();
