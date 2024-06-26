@@ -57,12 +57,12 @@
 
             <div class="form-group row">
                 <div class="col-sm-12">
-                    <button wire:click="addNilai" type="submit" class="btn btn-success">addNilai</button>
+                    {{-- <button wire:click="addNilai" type="submit" class="btn btn-success">addNilai</button>
                     <button wire:click="getMaxMinValues" type="submit" class="btn btn-success">getMaxMinValues</button>
                     <button wire:click="normalizeData" type="submit" class="btn btn-success">normalizeData</button>
                     <button wire:click="getUtilityValues" type="submit"
-                        class="btn btn-success">getUtilityValues</button>
-                    <button wire:click="hasilAkhir" type="submit" class="btn btn-success">hasilAkhir</button>
+                        class="btn btn-success">getUtilityValues</button> --}}
+                    <button wire:click="hasilAkhir" type="submit" class="btn btn-success">Simpan</button>
                 </div>
             </div>
 
