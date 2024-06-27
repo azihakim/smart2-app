@@ -28,18 +28,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($penilaian as $index => $item)
+                    @foreach ($penilaian as $rank => $item)
+                        @php
+                            $data = json_decode($item->data);
+                        @endphp
                         <tr>
-                            <td>{{ $index + 1 }}</td> {{-- Peringkat, dimulai dari 1 --}}
-                            <td>{{ $item->karyawan->nama }}</td> {{-- Nama Karyawan --}}
-                            <td>{{ $item->tgl_penilaian }}</td> {{-- Tanggal Penilaian --}}
+                            <td>{{ $rank + 1 }}</td> {{-- Menampilkan ranking berdasarkan urutan --}}
+                            <td>{{ $data->nama_karyawan }}</td> {{-- Menampilkan nama karyawan --}}
+                            <td>{{ $item->tgl_penilaian }}</td> {{-- Menampilkan tanggal penilaian --}}
                             <td>
-                                {{-- Decode the JSON string to access 'total_nilai' --}}
-                                @php
-                                    $data = json_decode($item->data, true); // Decode JSON string to associative array
-                                    $totalNilai = isset($data['total_nilai']) ? $data['total_nilai'] : null; // Access 'total_nilai' if it exists
-                                @endphp
-                                <pre>{{ $totalNilai }}</pre>
+                                <pre>{{ $data->total_nilai }}</pre>
                             </td>
                         </tr>
                     @endforeach
@@ -53,6 +51,7 @@
                     </tr>
                 </tfoot>
             </table>
+
 
         </div>
         <!-- /.card-body -->

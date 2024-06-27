@@ -49,16 +49,30 @@ class PenilaianController extends Controller
      */
     public function show($tgl_penilaian)
     {
-        // if (auth()->user()->role == 'Karyawan') {
-        //     $penilaian = PenilaianDb::where('tgl_penilaian', $tgl_penilaian)
-        //         ->orderByDesc('data->total_nilai')
-        //         ->take(3)
-        //         ->get();
-        // } else {
-        // }
-        $penilaian = PenilaianDb::where('tgl_penilaian', $tgl_penilaian)
-            ->orderByDesc('data->total_nilai')
-            ->get();
+        if (auth()->user()->role == 'Karyawan') {
+            $penilaian = PenilaianDb::where('tgl_penilaian', $tgl_penilaian)
+                ->get()
+                ->take(3)
+                ->sortBy(function ($penilaian) {
+                    return data_get(json_decode($penilaian->data), 'ranking');
+                });
+        } else {
+            $penilaian = PenilaianDb::where('tgl_penilaian', $tgl_penilaian)
+                ->get()
+                ->sortBy(function ($penilaian) {
+                    return data_get(json_decode($penilaian->data), 'ranking');
+                });
+        }
+
+
+        // Ubah data JSON menjadi objek dan tambahkan total_nilai ke model
+        $penilaian->each(function ($item) {
+            $data = json_decode($item->data);
+            $item->total_nilai = $data->total_nilai;
+        });
+
+        // Urutkan data berdasarkan total_nilai dari nilai tertinggi ke terendah
+        $penilaian = $penilaian->sortByDesc('total_nilai')->values(); // values() to reset keys
         // dd($penilaian);
         return view('penilaian.show', compact('penilaian'));
     }
