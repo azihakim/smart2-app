@@ -95,8 +95,14 @@ class KriteriaController extends Controller
      */
     public function destroy($id)
     {
-        $data = Kriteria::find($id);
-        $data->delete();
-        return redirect()->route('kriteria.index')->with('error', 'Kriteria berhasil dihapus');
+        $kriteria = Kriteria::find($id);
+
+        if ($kriteria->subKriterias()->exists()) {
+            return redirect()->route('kriteria.index')->with('error', 'Kriteria tidak dapat dihapus karena memiliki sub kriteria.');
+        }
+
+        $kriteria->delete();
+
+        return redirect()->route('kriteria.index')->with('success', 'Kriteria berhasil dihapus');
     }
 }

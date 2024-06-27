@@ -74,8 +74,13 @@ class KaryawanController extends Controller
     public function destroy($id)
     {
         $karyawan = Karyawan::find($id);
+
+        if ($karyawan->penilaian()->exists()) {
+            return redirect()->route('karyawan.index')->with('error', 'Karyawan tidak dapat dihapus karena memiliki penilaian.');
+        }
+
         $karyawan->delete();
 
-        return redirect()->route('karyawan.index')->with('error', 'Karyawan Berhasil di Hapus.');
+        return redirect()->route('karyawan.index')->with('success', 'Karyawan berhasil dihapus');
     }
 }

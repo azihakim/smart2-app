@@ -74,18 +74,20 @@
                                                         <i class="fa fa-pencil"></i> Edit
                                                     </a>
                                                 </div>
+                                                @if ($item->id)
+                                                    <div class="col-md-6">
+                                                        <form action="{{ route('kriteria.destroy', $item->id) }}"
+                                                            method="POST" style="display: inline;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn-hover"
+                                                                style="border: none; background: none; color: red; padding: 0; cursor: pointer;">
+                                                                <i class="fa fa-trash"></i> Hapus
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                @endif
 
-                                                <div class="col-md-6">
-                                                    <form action="{{ route('kriteria.destroy', $item->id) }}" method="POST"
-                                                        style="display: inline;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn-hover"
-                                                            style="border: none; background: none; color: red; padding: 0; cursor: pointer;">
-                                                            <i class="fa fa-trash"></i> Hapus
-                                                        </button>
-                                                    </form>
-                                                </div>
                                             </td>
                                         </tr>
                                     @endforeach

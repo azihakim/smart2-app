@@ -57,7 +57,7 @@
                                 <h1>Selamat Datang</h1>
                                 <h2>Sistem Pendukung Keputusan</h2>
                                 <hr>
-                                <h2>Kriteria Penilaian dan Indikator Penilaian Karyawan</h2>
+                                <h2>Kriteria Penilaian dan Indikator Penilaian Karyawadn</h2>
                             </div>
                             <div class="row">
                                 <div class="col-6">

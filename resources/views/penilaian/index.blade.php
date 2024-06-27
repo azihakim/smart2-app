@@ -49,9 +49,17 @@
                                             <td>
                                                 <a href="{{ route('penilaian.show', $item->tgl_penilaian) }}"
                                                     class="btn btn-block btn-outline-info">Cek</a>
+                                                <form action="{{ route('penilaian.destroy', $item->tgl_penilaian) }}"
+                                                    method="POST" style="display:inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                        class="btn btn-block btn-outline-danger">Hapus</button>
+                                                </form>
                                             </td>
                                         </tr>
                                     @endforeach
+
                                 </tbody>
                             </table>
                         </div>

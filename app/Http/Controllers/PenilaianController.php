@@ -82,8 +82,16 @@ class PenilaianController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy()
+    public function destroy($tgl_penilaian)
     {
-        //
+        $penilaian = PenilaianDb::where('tgl_penilaian', $tgl_penilaian)
+            ->orderByDesc('data->total_nilai')
+            ->get();
+
+        foreach ($penilaian as $item) {
+            $item->delete();
+        }
+
+        return redirect()->route('penilaian.index')->with('error', 'Penilaian berhasil dihapus');
     }
 }

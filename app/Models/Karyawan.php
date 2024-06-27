@@ -13,6 +13,6 @@ class Karyawan extends Model
 
     public function penilaian()
     {
-        return $this->hasMany(Penilaian::class);
+        return $this->hasMany(Penilaiandb::class);
     }
 }
