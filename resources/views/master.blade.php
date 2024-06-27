@@ -85,24 +85,37 @@
                     <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
                         <div class="menu_section">
                             <ul class="nav side-menu">
-                                <li>
-                                    <a href="{{ route('dashboard.index') }}"><i
-                                            class="fa fa-dashboard"></i>Dashboard</a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('penilaian.index') }}"><i
-                                            class="fa fa-calculator"></i>Penilaian</a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('karyawan.index') }}"><i class="fa fa-users"></i>Karyawan</a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('kriteria.index') }}"><i class="fa fa-bar-chart"></i>Kriteria</a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('subkriteria.index') }}"><i class="fa fa-bar-chart"></i>Sub
-                                        Kriteria</a>
-                                </li>
+                                @if (Auth::user()->role == 'Admin')
+                                    <li>
+                                        <a href="{{ route('dashboard.index') }}"><i
+                                                class="fa fa-dashboard"></i>Dashboard</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('penilaian.index') }}"><i
+                                                class="fa fa-calculator"></i>Penilaian</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('karyawan.index') }}"><i class="fa fa-users"></i>Karyawan</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('kriteria.index') }}"><i
+                                                class="fa fa-bar-chart"></i>Kriteria</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('subkriteria.index') }}"><i class="fa fa-bar-chart"></i>Sub
+                                            Kriteria</a>
+                                    </li>
+                                @elseif(Auth::user()->role == 'Karyawan')
+                                    <li>
+                                        <a href="{{ route('dashboard.index') }}"><i
+                                                class="fa fa-dashboard"></i>Dashboard</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('penilaian.index') }}"><i
+                                                class="fa fa-calculator"></i>Penilaian</a>
+                                    </li>
+                                @endif
+
                             </ul>
                         </div>
 

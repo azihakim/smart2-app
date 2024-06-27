@@ -19,17 +19,29 @@
                 class="form-label-left input_mask">
                 @csrf
                 <div class="form-group row">
-                    <div class="col-md-6 col-sm-6  form-group has-feedback">
-                        <input name="nama" type="text" class="form-control has-feedback-left" id="inputSuccess2"
+                    <div class="col-md-6 col-sm-6  form-group">
+                        <input required name="nama" type="text" class="form-control has-feedback-left"
                             placeholder="Nama">
                         <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                     </div>
 
                     <div class="col-md-6 col-sm-6  form-group has-feedback">
-                        <input name="jabatan" type="text" class="form-control" id="inputSuccess3" placeholder="Jabatan">
+                        <input required name="jabatan" type="text" class="form-control" id="inputSuccess3"
+                            placeholder="Jabatan">
                         <span class="fa fa-user form-control-feedback
                             right"
                             aria-hidden="true"></span>
+                    </div>
+
+                    <div class="col-md-6 col-sm-6  form-group">
+                        <input required name="username" type="text" class="form-control has-feedback-left"
+                            placeholder="Username">
+                        <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                    </div>
+                    <div class="col-md-6 col-sm-6  form-group">
+                        <input required name="password" type="password" class="form-control has-feedback-left"
+                            placeholder="Password">
+                        <span class="fa fa-key form-control-feedback left" aria-hidden="true"></span>
                     </div>
                 </div>
                 <div class="ln_solid"></div>

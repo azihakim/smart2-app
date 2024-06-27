@@ -19,12 +19,15 @@
             <div class="x_title">
                 <h2>Penilaian</h2>
                 <ul class="nav navbar-right panel_toolbox">
-                    <li>
-                        <a href="{{ route('penilaian.create') }}"
-                            style="text-decoration: none; transition: color 0.3s; color: rgb(76, 75, 75);">
-                            <i class="fa fa-plus"></i> Tambah
-                        </a>
-                    </li>
+                    @if (Auth::user()->role != 'Karyawan')
+                        <li>
+                            <a href="{{ route('penilaian.create') }}"
+                                style="text-decoration: none; transition: color 0.3s; color: rgb(76, 75, 75);">
+                                <i class="fa fa-plus"></i> Tambah
+                            </a>
+                        </li>
+                    @endif
+
                 </ul>
                 <div class="clearfix"></div>
             </div>
@@ -49,13 +52,16 @@
                                             <td>
                                                 <a href="{{ route('penilaian.show', $item->tgl_penilaian) }}"
                                                     class="btn btn-block btn-outline-info">Cek</a>
-                                                <form action="{{ route('penilaian.destroy', $item->tgl_penilaian) }}"
-                                                    method="POST" style="display:inline;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit"
-                                                        class="btn btn-block btn-outline-danger">Hapus</button>
-                                                </form>
+                                                @if (Auth::user()->role != 'Karyawan')
+                                                    <form action="{{ route('penilaian.destroy', $item->tgl_penilaian) }}"
+                                                        method="POST" style="display:inline;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit"
+                                                            class="btn btn-block btn-outline-danger">Hapus</button>
+                                                    </form>
+                                                @endif
+
                                             </td>
                                         </tr>
                                     @endforeach

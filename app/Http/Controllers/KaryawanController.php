@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Karyawan;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class KaryawanController extends Controller
 {
@@ -33,6 +35,13 @@ class KaryawanController extends Controller
         $data->nama = $request->nama;
         $data->jabatan = $request->jabatan;
         $data->save();
+
+        $user = new User();
+        $user->name = $request->nama;
+        $user->username = $request->username;
+        $user->password = Hash::make($request->password);
+        $user->role = 'Karyawan';
+        $user->save();
 
         return redirect()->route('karyawan.index')->with('success', 'Karyawan Berhasil di Tambahkan');
     }
