@@ -25,13 +25,14 @@
                 @csrf
                 <div class="form-group row">
                     <div class="col-md-4 col-sm-4  form-group has-feedback">
-                        <input name="nama" type="text" class="form-control has-feedback-left" id="inputSuccess2"
-                            placeholder="Nama">
+                        <input required name="nama" type="text" class="form-control has-feedback-left"
+                            id="inputSuccess2" placeholder="Nama">
                         <span class="fa fa-bar-chart form-control-feedback left" aria-hidden="true"></span>
                     </div>
 
                     <div class="col-md-4 col-sm-4  form-group has-feedback">
-                        <input name="bobot" type="text" class="form-control" id="inputSuccess3" placeholder="Bobot">
+                        <input required name="bobot" type="number" class="form-control" id="inputSuccess3"
+                            placeholder="Bobot">
                         <span class="fa fa-calculator form-control-feedback
                             right"
                             aria-hidden="true"></span>
@@ -41,11 +42,16 @@
                     </div>
 
                     <div class="col-md-4 col-sm-4  form-group has-feedback">
-                        <input name="keterangan" type="text" class="form-control" id="inputSuccess3"
+                        <select class="form-control" id="kriteria_id" name="keterangan" required>
+                            <option></option>
+                            <option value="Benefit">Benefit</option>
+                            <option value="Cost">Cost</option>
+                        </select>
+                        {{-- <input name="keterangan" type="text" class="form-control" id="inputSuccess3"
                             placeholder="Keterangan">
                         <span class="fa fa-info form-control-feedback
                             right"
-                            aria-hidden="true"></span>
+                            aria-hidden="true"></span> --}}
                     </div>
                 </div>
                 <div class="ln_solid"></div>

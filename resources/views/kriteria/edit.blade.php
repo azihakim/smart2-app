@@ -35,11 +35,11 @@
                     </div>
 
                     <div class="col-md-4 col-sm-4  form-group has-feedback">
-                        <input value="{{ $data->keterangan }}" name="keterangan" type="text" class="form-control"
-                            id="inputSuccess3" placeholder="Keterangan">
-                        <span class="fa fa-info form-control-feedback
-                            right"
-                            aria-hidden="true"></span>
+                        <select class="form-control" id="kriteria_id" name="keterangan" required>
+                            <option value="{{ $data->keterangan }}">{{ $data->keterangan }}</option>
+                            <option value="Benefit">Benefit</option>
+                            <option value="Cost">Cost</option>
+                        </select>
                     </div>
                 </div>
                 <div class="ln_solid"></div>

@@ -32,46 +32,39 @@ class Penilaian extends Component
         $this->subkriteria = SubKriteria::all();
     }
 
-    // public function mount()
-    // {
-    //     $this->karyawans = Karyawan::all();
-
-    //     // Initialize arrays to store data
-    //     $this->id_karyawan = [];
-    //     $this->nama_karyawan = [];
-    //     $this->jabatan_karyawan = [];
-    //     $this->nilai = []; // Adjust to fit your structure
-
-    //     // Initialize karyawan data
-    //     foreach ($this->karyawans as $karyawan) {
-    //         $this->id_karyawan[$karyawan->id] = $karyawan->id;
-    //         $this->nama_karyawan[$karyawan->id] = $karyawan->nama;
-    //         $this->jabatan_karyawan[$karyawan->id] = $karyawan->jabatan;
-
-    //         // Initialize nilai for each karyawan and subkriteria
-    //         $this->nilai[$karyawan->id] = [];
-
-    //         // Fetch subkriteria for each kriteria
-    //         $kriteria = Kriteria::with('subkriteria')->get();
-
-    //         foreach ($kriteria as $item) {
-    //             // Ensure the relationship method 'subkriteria' is correctly defined in Kriteria model
-    //             foreach ($item->subkriteria as $subitem) {
-    //                 // Initialize nilai for each subkriteria
-    //                 $this->nilai[$karyawan->id][$subitem->id][$subitem->nama] = 0;
-    //             }
-    //         }
-    //     }
-    // }
-
 
     public function render()
     {
+        foreach ($this->subkriteria as $sub) {
+            $sub->penilaian = json_decode($sub->penilaian, true);
+        }
         return view('livewire.penilaian');
+    }
+    public function validateForm()
+    {
+        $isValid = true;
+
+        foreach ($this->karyawans as $karyawan) {
+            foreach ($this->subkriteria as $subKriteria) {
+                $karyawanId = $karyawan->id;
+                $subKriteriaId = $subKriteria->id;
+
+                // Check if the required field is empty or null
+                if (!isset($this->nilai[$karyawanId][$subKriteriaId])) {
+                    $this->addError('nilai.' . $karyawanId . '.' . $subKriteriaId, 'Nilai untuk ' . $subKriteria->nama . ' harus diisi.');
+                    $isValid = false;
+                }
+            }
+        }
+
+        // dd($isValid);
+
+        return $isValid;
     }
 
     public function addNilai()
     {
+
         $mappingKriteria = [];
         $subs = SubKriteria::select('nama', 'kriteria_id', 'bobot')->get();
         foreach ($subs as $sub) {
@@ -218,47 +211,16 @@ class Penilaian extends Component
     }
 
 
-    // public function hasilAkhir()
-    // {
-    //     $utilityValues = $this->getUtilityValues();
-    //     $hasilAkhir = [];
-    //     $totalSum = 0;
 
-    //     foreach ($utilityValues as $setKey => $set) {
-    //         $totalNilai = 0;
-    //         $perKriteria = [];
-
-    //         foreach ($set as $namaKriteria => $utility) {
-    //             $kriteria = $this->kriteria->firstWhere('nama', $namaKriteria);
-
-    //             if ($kriteria) {
-    //                 $bobot = (float) $kriteria->bobot;
-    //                 $nilaiPerKriteria = $utility / ($bobot * 0.01);
-
-    //                 $perKriteria[$namaKriteria] = $nilaiPerKriteria;
-    //                 $totalNilai += $nilaiPerKriteria;
-    //             }
-    //         }
-
-    //         $hasilAkhir[$setKey]['nilai_per_kriteria'] = $perKriteria;
-    //         $hasilAkhir[$setKey]['total_nilai'] = $totalNilai;
-    //     }
-
-    //     // Urutkan hasil akhir berdasarkan total_nilai dari yang tertinggi ke terendah
-    //     usort($hasilAkhir, function ($a, $b) {
-    //         return $b['total_nilai'] <=> $a['total_nilai']; // Mengurutkan dari nilai total_nilai tertinggi ke terendah
-    //     });
-
-    //     // Berikan peringkat pada hasil akhir
-    //     $ranking = 1;
-    //     foreach ($hasilAkhir as $key => &$item) {
-    //         $item['rank'] = $ranking;
-    //         $ranking++;
-    //     }
-    //     dd($hasilAkhir);
-    // }
     public function hasilAkhir()
     {
+        $isValid = $this->validateForm();
+
+        if (!$isValid) {
+            // If validation fails, redirect back with an error message
+            session()->flash('error', 'Ada kesalahan validasi. Silakan lengkapi semua input yang diperlukan.');
+            return redirect()->back();
+        }
         $utilityValues = $this->getUtilityValues();
         $hasilAkhir = [];
         $totalSum = 0;

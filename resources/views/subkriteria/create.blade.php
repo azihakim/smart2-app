@@ -43,6 +43,7 @@
                         Kriteria:
                         <div class="form-group">
                             <select class="form-control" id="kriteria_id" name="kriteria_id" required>
+                                <option value=""></option>
                                 @foreach ($kriterias as $kriteria)
                                     <option value="{{ $kriteria->id }}">
                                         {{ $kriteria->nama }}

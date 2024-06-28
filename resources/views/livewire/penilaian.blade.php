@@ -34,35 +34,43 @@
                         <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
                     </div>
                 </div>
-
                 <div class="form-group row">
-                    {{-- @foreach ($kriteria as $item)
-                        <div class="col-md-2 col-sm-2 form-group">
-                            <label for="fullname">{{ $item->nama }} :</label>
-                            <input wire:model="nilai.{{ $karyawan->id }}.{{ $item->id }}.{{ $item->nama }}"
-                                type="text" id="fullname" class="form-control" required="">
-                        </div>
-                    @endforeach --}}
                     @foreach ($subkriteria as $item)
                         <div class="col-md-2 col-sm-2 form-group">
                             <label for="fullname">{{ $item->nama }} :</label>
+                            <select class="form-control"
+                                wire:model="nilai.{{ $karyawan->id }}.{{ $item->id }}.{{ $item->nama }}"
+                                type="number" id="fullname">
+                                <option></option>
+                                @foreach ($item->penilaian as $penilaian)
+                                    <option value="{{ $penilaian['skor'] }}">{{ $penilaian['skor'] }}</option>
+                                @endforeach
+                            </select>
+                            {{-- <label for="fullname">{{ $item->nama }} :</label>
                             <input wire:model="nilai.{{ $karyawan->id }}.{{ $item->id }}.{{ $item->nama }}"
-                                type="number" id="fullname" class="form-control" required="">
+                                type="number" id="fullname" class="form-control" required=""> --}}
                         </div>
+                        @error('nilai.' . $karyawan->id . '.' . $item->id . '.' . $item->nama)
+                            <span class="invalid-feedback">{{ $message }}</span>
+                        @enderror
                     @endforeach
                 </div>
                 <div class="ln_solid"></div>
             @endforeach
 
-
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <div class="form-group row">
                 <div class="col-sm-12">
-                    {{-- <button wire:click="addNilai" type="submit" class="btn btn-success">addNilai</button>
-                    <button wire:click="getMaxMinValues" type="submit" class="btn btn-success">getMaxMinValues</button>
-                    <button wire:click="normalizeData" type="submit" class="btn btn-success">normalizeData</button>
-                    <button wire:click="getUtilityValues" type="submit"
-                        class="btn btn-success">getUtilityValues</button> --}}
                     <button wire:click="hasilAkhir" type="submit" class="btn btn-success">Simpan</button>
+                    <button wire:click="validateForm" type="submit" class="btn btn-success">validateForm</button>
                 </div>
             </div>
 
