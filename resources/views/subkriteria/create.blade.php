@@ -23,7 +23,8 @@
                         Nama Sub Kriteria
                         <div class="form-group">
                             <div class="input-group date" id="myDatepicker">
-                                <input placeholder="Nama Sub Kriteria" name="nama" type="text" class="form-control">
+                                <input required placeholder="Nama Sub Kriteria" name="nama" type="text"
+                                    class="form-control">
                             </div>
                         </div>
                     </div>
@@ -31,7 +32,8 @@
                         Bobot Sub Kriteria
                         <div class="form-group">
                             <div class="input-group date" id="myDatepicker">
-                                <input placeholder="Bobot Sub Kriteria" name="bobot" type="text" class="form-control">
+                                <input required placeholder="Bobot Sub Kriteria" name="bobot" type="text"
+                                    class="form-control">
                             </div>
                         </div>
                     </div>
@@ -54,39 +56,42 @@
                 <div class="row">
                     <div class="col-sm-3">
                         <div class="form-group">
-                            <input placeholder="Rentang" name="rentang[]" type="text" class="form-control">
+                            <input required placeholder="Rentang" name="rentang[]" type="text" class="form-control">
 
                         </div>
                     </div>
                     <div class="col-sm-3">
                         <div class="form-group">
-                            <input placeholder="Bobot Sub Kriteria" name="skor[]" type="text" class="form-control">
+                            <input required placeholder="Bobot Sub Kriteria" name="skor[]" type="text"
+                                class="form-control">
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-3">
                         <div class="form-group">
-                            <input placeholder="Rentang" name="rentang[]" type="text" class="form-control">
+                            <input required placeholder="Rentang" name="rentang[]" type="text" class="form-control">
 
                         </div>
                     </div>
                     <div class="col-sm-3">
                         <div class="form-group">
-                            <input placeholder="Bobot Sub Kriteria" name="skor[]" type="text" class="form-control">
+                            <input required placeholder="Bobot Sub Kriteria" name="skor[]" type="text"
+                                class="form-control">
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-3">
                         <div class="form-group">
-                            <input placeholder="Rentang" name="rentang[]" type="text" class="form-control">
+                            <input required placeholder="Rentang" name="rentang[]" type="text" class="form-control">
 
                         </div>
                     </div>
                     <div class="col-sm-3">
                         <div class="form-group">
-                            <input placeholder="Bobot Sub Kriteria" name="skor[]" type="text" class="form-control">
+                            <input required placeholder="Bobot Sub Kriteria" name="skor[]" type="text"
+                                class="form-control">
                         </div>
                     </div>
                 </div>
