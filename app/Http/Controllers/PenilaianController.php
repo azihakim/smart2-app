@@ -96,9 +96,9 @@ class PenilaianController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($tgl_penilaian)
+    public function destroy($created_at)
     {
-        $penilaian = PenilaianDb::where('tgl_penilaian', $tgl_penilaian)
+        $penilaian = PenilaianDb::where('created_at', $created_at)
             ->orderByDesc('data->total_nilai')
             ->get();
 
