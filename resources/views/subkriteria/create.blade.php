@@ -31,12 +31,13 @@
                     <div class="col-sm-4">
                         Bobot Sub Kriteria
                         <div class="form-group">
-                            <div class="input-group date" id="myDatepicker">
+                            <div class="input-group date">
                                 <input required placeholder="Bobot Sub Kriteria" name="bobot" type="number"
-                                    class="form-control">
+                                    class="form-control" min="0" onkeypress="preventMinus(event)">
                             </div>
                         </div>
                     </div>
+
 
 
                     <div class="col-sm-4">
@@ -58,27 +59,16 @@
                     <div class="col-sm-3">
                         <div class="form-group">
                             <input required placeholder="Rentang" name="rentang[]" type="text" class="form-control">
-
                         </div>
                     </div>
                     <div class="col-sm-3">
                         <div class="form-group">
-                            <input required placeholder="Bobot Sub Kriteria" name="skor[]" type="number"
-                                class="form-control">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-3">
-                        <div class="form-group">
-                            <input required placeholder="Rentang" name="rentang[]" type="text" class="form-control">
-
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="form-group">
-                            <input required placeholder="Bobot Sub Kriteria" name="skor[]" type="number"
-                                class="form-control">
+                            <select class="form-control skor" name="skor[]" required>
+                                <option value=""></option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -86,13 +76,33 @@
                     <div class="col-sm-3">
                         <div class="form-group">
                             <input required placeholder="Rentang" name="rentang[]" type="text" class="form-control">
-
                         </div>
                     </div>
                     <div class="col-sm-3">
                         <div class="form-group">
-                            <input required placeholder="Bobot Sub Kriteria" name="skor[]" type="number"
-                                class="form-control">
+                            <select class="form-control skor" name="skor[]" required>
+                                <option value=""></option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <input required placeholder="Rentang" name="rentang[]" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <select class="form-control skor" name="skor[]" required>
+                                <option value=""></option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -109,8 +119,64 @@
 @endsection
 @section('scripts')
     <script>
+        function preventMinus(event) {
+            if (event.key === '-' || event.keyCode === 45) {
+                event.preventDefault();
+            }
+        }
+    </script>
+    <script>
         function goBack() {
             window.history.back();
         }
+    </script>
+    <script>
+        document.querySelectorAll('.skor').forEach(function(select) {
+            select.addEventListener('change', function() {
+                validateScores();
+            });
+        });
+
+        function validateScores() {
+            const scores = [];
+            let valid = true;
+            document.querySelectorAll('.skor').forEach(function(select) {
+                const value = select.value;
+                if (value !== '') {
+                    if (scores.includes(value)) {
+                        valid = false;
+                    }
+                    scores.push(value);
+                }
+            });
+
+            if (!valid) {
+                alert('Nilai skor tidak boleh sama.');
+                document.querySelectorAll('.skor').forEach(function(select) {
+                    if (scores.filter(v => v === select.value).length > 1) {
+                        select.value = '';
+                    }
+                });
+            }
+        }
+
+        document.getElementById('form-skors').addEventListener('submit', function(event) {
+            const scores = [];
+            let valid = true;
+            document.querySelectorAll('.skor').forEach(function(select) {
+                const value = select.value;
+                if (value !== '') {
+                    if (scores.includes(value)) {
+                        valid = false;
+                    }
+                    scores.push(value);
+                }
+            });
+
+            if (!valid || scores.length !== 3) {
+                alert('Nilai skor harus unik dan hanya boleh 1, 2, atau 3.');
+                event.preventDefault(); // Mencegah form submit jika validasi gagal
+            }
+        });
     </script>
 @endsection

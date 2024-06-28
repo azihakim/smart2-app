@@ -31,8 +31,8 @@
                     </div>
 
                     <div class="col-md-4 col-sm-4  form-group has-feedback">
-                        <input required name="bobot" type="number" class="form-control" id="inputSuccess3"
-                            placeholder="Bobot">
+                        <input required name="bobot" type="number" class="form-control" placeholder="Bobot"
+                            min="0" onkeypress="preventMinus(event)">
                         <span class="fa fa-calculator form-control-feedback
                             right"
                             aria-hidden="true"></span>
@@ -66,6 +66,13 @@
     </div>
 @endsection
 @section('scripts')
+    <script>
+        function preventMinus(event) {
+            if (event.key === '-' || event.keyCode === 45) {
+                event.preventDefault();
+            }
+        }
+    </script>
     <script>
         function goBack() {
             window.history.back();
