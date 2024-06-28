@@ -50,10 +50,10 @@
                                                 {{ $item->tgl_penilaian }}
                                             </td>
                                             <td>
-                                                <a href="{{ route('penilaian.show', $item->tgl_penilaian) }}"
+                                                <a href="{{ route('penilaian.show', $item->created_at) }}"
                                                     class="btn btn-block btn-outline-info">Cek</a>
                                                 @if (Auth::user()->role != 'Karyawan')
-                                                    <form action="{{ route('penilaian.destroy', $item->tgl_penilaian) }}"
+                                                    <form action="{{ route('penilaian.destroy', $item->created_at) }}"
                                                         method="POST" style="display:inline;">
                                                         @csrf
                                                         @method('DELETE')

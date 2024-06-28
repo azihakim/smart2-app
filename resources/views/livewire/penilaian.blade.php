@@ -70,7 +70,6 @@
             <div class="form-group row">
                 <div class="col-sm-12">
                     <button wire:click="hasilAkhir" type="submit" class="btn btn-success">Simpan</button>
-                    <button wire:click="validateForm" type="submit" class="btn btn-success">validateForm</button>
                 </div>
             </div>
 

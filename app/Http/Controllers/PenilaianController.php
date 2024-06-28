@@ -14,10 +14,10 @@ class PenilaianController extends Controller
     public function index()
     {
         // Menyaring data penilaian berdasarkan tanggal
-        $penilaian = Penilaiandb::orderBy('tgl_penilaian')->get();
+        $penilaian = Penilaiandb::orderBy('created_at')->get();
 
         // Mengelompokkan data berdasarkan tanggal penilaian
-        $groupedPenilaian = $penilaian->groupBy('tgl_penilaian');
+        $groupedPenilaian = $penilaian->groupBy('created_at');
 
         // Mengambil satu entri pertama dari setiap grup
         $uniquePenilaian = $groupedPenilaian->map(function ($group) {
@@ -47,17 +47,17 @@ class PenilaianController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($tgl_penilaian)
+    public function show($created_at)
     {
         if (auth()->user()->role == 'Karyawan') {
-            $penilaian = PenilaianDb::where('tgl_penilaian', $tgl_penilaian)
+            $penilaian = PenilaianDb::where('created_at', $created_at)
                 ->get()
                 ->take(3)
                 ->sortBy(function ($penilaian) {
                     return data_get(json_decode($penilaian->data), 'ranking');
                 });
         } else {
-            $penilaian = PenilaianDb::where('tgl_penilaian', $tgl_penilaian)
+            $penilaian = PenilaianDb::where('created_at', $created_at)
                 ->get()
                 ->sortBy(function ($penilaian) {
                     return data_get(json_decode($penilaian->data), 'ranking');

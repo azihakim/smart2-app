@@ -32,7 +32,7 @@
                         Bobot Sub Kriteria
                         <div class="form-group">
                             <div class="input-group date" id="myDatepicker">
-                                <input required placeholder="Bobot Sub Kriteria" name="bobot" type="text"
+                                <input required placeholder="Bobot Sub Kriteria" name="bobot" type="number"
                                     class="form-control">
                             </div>
                         </div>
@@ -63,7 +63,7 @@
                     </div>
                     <div class="col-sm-3">
                         <div class="form-group">
-                            <input required placeholder="Bobot Sub Kriteria" name="skor[]" type="text"
+                            <input required placeholder="Bobot Sub Kriteria" name="skor[]" type="number"
                                 class="form-control">
                         </div>
                     </div>
@@ -77,7 +77,7 @@
                     </div>
                     <div class="col-sm-3">
                         <div class="form-group">
-                            <input required placeholder="Bobot Sub Kriteria" name="skor[]" type="text"
+                            <input required placeholder="Bobot Sub Kriteria" name="skor[]" type="number"
                                 class="form-control">
                         </div>
                     </div>
@@ -91,7 +91,7 @@
                     </div>
                     <div class="col-sm-3">
                         <div class="form-group">
-                            <input required placeholder="Bobot Sub Kriteria" name="skor[]" type="text"
+                            <input required placeholder="Bobot Sub Kriteria" name="skor[]" type="number"
                                 class="form-control">
                         </div>
                     </div>
